@@ -11,9 +11,9 @@ API_TOKEN = 'Ключи'
 
 storage = MemoryStorage()
 bot = Bot(token=API_TOKEN)
-dp = Dispatcher(bot, storage=storage)  # Передаем хранилище в диспетчер
+dp = Dispatcher(bot, storage=storage)
 
-# Включаем логирование для отладки
+
 dp.middleware.setup(LoggingMiddleware())
 
 
@@ -24,7 +24,7 @@ class UserState(StatesGroup):
     weight = State()
 
 
-# Обрабатываем команду 'Calories' и начинаем цепочку состояний
+# Обрабатываем команду 'Calories'
 @dp.message_handler(Text(equals='Calories', ignore_case=True))
 async def set_age(message: Message):
     await UserState.age.set()  # Возраст age
