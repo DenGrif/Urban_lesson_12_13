@@ -16,7 +16,7 @@ dp = Dispatcher(bot, storage=storage)
 
 dp.middleware.setup(LoggingMiddleware())
 
-# Создаем класс состояний
+# Создаем класс
 class UserState(StatesGroup):
     age = State()
     growth = State()
