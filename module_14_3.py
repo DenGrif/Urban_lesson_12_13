@@ -14,13 +14,13 @@ dp = Dispatcher(bot, storage=storage)
 
 dp.middleware.setup(LoggingMiddleware())
 
-# Клавиатура с кнопками "Информация" и "Купить"
+# Клава с кнопками "Информация" и "Купить"
 keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
 button_info = KeyboardButton('Информация')
 button_buy = KeyboardButton('Купить')
 keyboard.add(button_info, button_buy)
 
-# Inline клавиатура с продуктами для покупки
+# Inline клава с играми для покупки
 inline_buy_keyboard = InlineKeyboardMarkup(row_width=2)
 products = [
     ("Mgame", "Lgame.jpg"),
@@ -32,13 +32,13 @@ products = [
 for product_name, _ in products:
     inline_buy_keyboard.add(InlineKeyboardButton(product_name, callback_data=product_name))
 
-# Клавиатура с кнопкой "Назад"
+# Кнопка "Назад"
 inline_back_keyboard = InlineKeyboardMarkup(row_width=1)
 back_button = InlineKeyboardButton('Назад', callback_data='back')
 inline_back_keyboard.add(back_button)
 
 
-# Команда /start, отправка клавиатуры
+# Команда /start с клавиатурой
 @dp.message_handler(commands=['start'])
 async def start(message: Message):
     first_name = message.from_user.first_name
@@ -46,31 +46,30 @@ async def start(message: Message):
     full_name = f"{first_name} {last_name}" if last_name else first_name
     await message.reply(
         f"Добро пожаловать, {full_name}! 😉\n Посмотрите информацию о наших играх, кнопка: 'Информация', выбирайте - кнопка: 'Купить'",
-        reply_markup=keyboard  # добавляем клавиатуру
+        reply_markup=keyboard  # Клавиатура
     )
 
 
-# Хэндлер для кнопки "Купить"
+# Купить
 @dp.message_handler(Text(equals='Купить', ignore_case=True))
 async def get_buying_list(message: Message):
-    # Показываем Inline-клавиатуру с продуктами без описания
     await message.reply("Выберите продукт для покупки:", reply_markup=inline_buy_keyboard)
 
 
-# Callback хэндлер для покупки продуктов и вывода изображений
+# Callback хэндлер для покупки игр и показа картинок
 @dp.callback_query_handler(lambda call: call.data in [product[0] for product in products])
 async def send_product_image(call: CallbackQuery):
-    # Получаем соответствующую картинку
+    # Получаем нужную картинку
     for product_name, image_file in products:
         if call.data == product_name:
             with open(image_file, 'rb') as photo:
                 await call.message.reply_photo(photo)
             break
 
-    # Отправляем подтверждение покупки
+    # Подтверждение покупки
     await call.message.reply(f"Вы выбрали {call.data}. Отличный выбор! 😉")
 
-    # Добавляем кнопку "Назад"
+    # Ккнопка "Назад"
     await call.message.reply("Вернуться назад к выбору продуктов:", reply_markup=inline_back_keyboard)
     await call.answer()  # Закрываем кнопку
 
@@ -78,7 +77,7 @@ async def send_product_image(call: CallbackQuery):
 # Callback хэндлер для кнопки "Назад"
 @dp.callback_query_handler(lambda call: call.data == 'back')
 async def go_back(call: CallbackQuery):
-    # Возвращаем пользователя к выбору продуктов
+    # Возвращаемся к выбору игр
     await call.message.edit_text("Выберите продукт для покупки:", reply_markup=inline_buy_keyboard)
     await call.answer()  # Закрываем кнопку
 
