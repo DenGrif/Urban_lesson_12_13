@@ -6,7 +6,7 @@ from aiogram.types import Message, CallbackQuery, ReplyKeyboardMarkup, KeyboardB
 from aiogram.utils import executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-API_TOKEN = '6318911814:AAFgqnHr3c4lcVjL7O9X-nDD28pM678qoN0'
+API_TOKEN = 'Ключ'
 
 storage = MemoryStorage()
 bot = Bot(token=API_TOKEN)
