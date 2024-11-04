@@ -9,7 +9,7 @@ import sqlite3
 
 from crud_functions import initiate_db, get_all_products
 
-API_TOKEN = '8008288734:AAF9GenuyNrCuauqNPt32HMr_RCYr31VbbI'
+API_TOKEN = 'Ключи'
 
 storage = MemoryStorage()
 bot = Bot(token=API_TOKEN)
